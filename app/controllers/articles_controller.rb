@@ -25,11 +25,11 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     respond_to do |format|
       if @article.save
+        flash[:notice] = t('flash.notice')
         format.html { redirect_to @article, notice: "Article was successfully created." }
-        format.json { render :show, status: :created, location: @article }
       else
+        flash[:alert] = t('flash.alert')
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
       end
     end
   end

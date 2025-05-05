@@ -1,0 +1,17 @@
+ja:
+  devise:
+    registrations:
+      new:
+        title: "サインアップ"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード確認"
+        submit: "サインアップ"
+        minimum_password_length: "最低6文字必要"
+    sessions:
+      new:
+        title: "ログイン"
+        email: "メールアドレス"
+        password: "パスワード"
+        remember_me: "ログインを保持する"
+        submit: "ログイン"
