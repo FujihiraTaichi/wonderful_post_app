@@ -1,0 +1,8 @@
+ja:
+     articles:
+       title: "タイトル"
+       content: "内容"
+       show: "表示"
+       edit: "編集"
+       destroy: "削除"
+       new_article: "新しい記事"
