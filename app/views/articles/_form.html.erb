@@ -13,6 +13,7 @@
   <div class="mb-3">
     <%= form.label :title, t('helpers.label.article.title'), class: "form-label" %>
     <%= form.text_field :title, class: "form-control" %>
+    <%= form.collection_check_boxes :tag_ids, Tag.all, :id, :name %>
   </div>
 
   <div class="field">

@@ -16,6 +16,17 @@
       <div class="flash <%= key %>"><%= message %></div>
     <% end %>
 
+    <header>
+     <nav>
+       <% if user_signed_in? %>
+         <%= link_to 'マイページ', mypage_path %>
+         <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+       <% else %>
+         <%= link_to 'ログイン', new_user_session_path %>
+       <% end %>
+     </nav>
+   </header>
+
 
    <%= render partial: "layouts/navbar" %>
 

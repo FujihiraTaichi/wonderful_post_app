@@ -1,0 +1,21 @@
+   <nav>
+     <ul class="pagination">
+       <% if paginator.prev_page %>
+         <li class="page-item">
+           <%= link_to '前へ', paginator.prev_page, class: 'page-link' %>
+         </li>
+       <% end %>
+
+       <% paginator.each do |page| %>
+         <li class="page-item <%= page == paginator.current_page ? 'active' : '' %>">
+           <%= link_to page, page, class: 'page-link' %>
+         </li>
+       <% end %>
+
+       <% if paginator.next_page %>
+         <li class="page-item">
+           <%= link_to '次へ', paginator.next_page, class: 'page-link' %>
+         </li>
+       <% end %>
+     </ul>
+   </nav>
