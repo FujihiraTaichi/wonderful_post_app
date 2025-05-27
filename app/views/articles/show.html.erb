@@ -3,12 +3,21 @@
 <p>
   <strong><%=t('articles.title') %>:</strong>
   <%= @article.title %>
+  <% @article.tags.each do |tag| %>
+       <span class="badge rounded-pill bg-primary"><%= tag.name%></span>
+     <% end %>
 </p>
 
 <p>
   <strong><%=t('articles.content') %>:</strong>
   <%= @article.content %>
 </p>
+
+<p>タグ: <%= @article.tags.pluck(:name).join(", ") %></p>
+
+<% if @article.user == current_user %>
+  <%= link_to '編集', edit_article_path(@article) %>
+<% end %>
 
 <%= link_to t('articles.edit'), edit_article_path(@article) %> |
 <%= link_to t('articles.back'), articles_path %>

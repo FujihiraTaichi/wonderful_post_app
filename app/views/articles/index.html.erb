@@ -1,12 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1> <%t('articles.title') %>一覧</h1>
+<h1><%= t('articles.title') %>一覧</h1>
+<%= render partial: "search" %>
 
 <table>
   <thead>
     <tr>
-      <th> <%=t('articles.title')%> </th>
-      <th> <%=t('articles.content')%> </th>
+      <th><%= t('articles.title') %></th>
+      <th><%= t('articles.content') %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,16 +15,31 @@
   <tbody>
     <% @articles.each do |article| %>
       <tr>
-        <td><%= article.title %></td>
+       <td>
+          <%= article.title %>
+          <% article.tags.each do |tag| %>
+            <span class="badge rounded-pill bg-primary"><%= tag.name%></span>
+          <% end %>
+       </td>
         <td><%= article.content %></td>
         <td><%= link_to t('articles.show'), article %></td>
-        <td><%= link_to t('articles.edit'), edit_article_path(article) %></td>
-        <td><%= button_to t('articles.destroy'), article, method: :delete,data: { confirm: '削除しますか？' } %></td>
+
+        <% if user_signed_in? %>
+          <td><%= link_to t('articles.edit'), edit_article_path(article) %></td>
+          <td><%= button_to t('articles.destroy'), article, method: :delete, data: { confirm: '削除しますか？' } %></td>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
+
 </table>
+ <%= paginate @articles, theme: 'bootstrap-4' %>
 
 <br>
 
-<%= link_to t('articles.new_article'), new_article_path %>
+<% if user_signed_in? %>
+  <%= link_to t('articles.new_article'), new_article_path %>
+<% end %>

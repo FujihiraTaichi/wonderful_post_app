@@ -1,9 +1,14 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!, only: [:create, :edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
   # GET /articles or /articles.json
   def index
-    @articles = Article.all
+    if params[:title].present?
+      @articles = Article.where("title LIKE ?", "%#{params[:title]}%").page(params[:page]).per(5)
+    else
+      @articles = Article.page(params[:page]).per(5)
+    end
   end
 
   # GET /articles/1 or /articles/1.json
@@ -18,11 +23,15 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
+    @article =
+    current_user.articles.find(params[:id])
   end
+
 
   # POST /articles or /articles.json
   def create
-    @article = Article.new(article_params)
+    @article =
+    current_user.articles.build(article_params)
     respond_to do |format|
       if @article.save
         flash[:notice] = t('flash.notice')
@@ -49,6 +58,8 @@ class ArticlesController < ApplicationController
 
   # DELETE /articles/1 or /articles/1.json
   def destroy
+    @article =
+    current_user.articles.find(params[:id])
     @article.destroy
 
     respond_to do |format|
@@ -65,6 +76,12 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:title, :content)
+      params.require(:article).permit(:title, :content, tag_ids: [])
+   end
+
+
+    def correct_user
+      @article = Article.find(params[:id])
+      redirect_to articles_path, alert: '権限がありません。' unless @article.user == current_user
     end
 end
